@@ -1,0 +1,124 @@
+@import url("./presets.less");
+.navbar {
+  display: flex;
+  align-items: center;
+  font-weight: @fW300;
+  font-size: 17px;
+  font-family: @poppins;
+  background-color: @lm-bg-layer;
+  height: 100vh;
+  width: 100%;
+  color: @lm-elements;
+  justify-content: center;
+  flex-direction: column;
+  // gap: 13px;
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 25px;
+    height: 18vh;
+  }
+  .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background-color: @lm-bg-layer;
+    width: 100%;
+    height: 82vh;
+    gap: 5px;
+  }
+}
+.lang {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 7vh;
+}
+// .log {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   height: 11vh;
+//   flex-direction: column;
+// }
+li {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  font-size: 15px;
+  font-weight: @fW400;
+  font-family: @poppins;
+}
+.list5 {
+  color: @lm-orange;
+  font-weight: @fW500;
+  font-style: normal;
+  font-size: 15px;
+  font-family: @poppins;
+}
+
+.lang input {
+  background-color: @lm-bg-layer;
+  // border: 1px solid @lm-orange;
+  transform: rotate(-90deg);
+}
+input {
+  font-family: @shipori;
+  font-size: 13px;
+  font-weight: medium;
+  color: @lm-orange;
+  border: 1px solid @lm-orange;
+  border-radius: 3px;
+  padding: 3px;
+}
+.label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transform: rotate(-90deg);
+  color: @lm-orange;
+  font-family: @poppins;
+}
+// .lan {
+//   // display: flex;
+//   // justify-content: center;
+//   // align-items: center;
+//   // flex-direction: column;
+//   // margin-left: 7px;
+// }
+
+.list .ant-divider-vertical {
+  background: @lm-elements;
+  height: 8%;
+  width: 1px;
+}
+.list .feryel {
+  background: @lm-orange;
+  height: 8%;
+  width: 1px;
+}
+
+// .vertical {
+//   // border-top: 1px solid @lm-elements;
+//   // transform: rotate(90deg);
+//   width: 85px;
+// }
+// .line {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   flex-direction: column;
+//   height: 10vh;
+// }
