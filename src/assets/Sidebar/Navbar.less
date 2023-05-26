@@ -1,4 +1,4 @@
-@import url("./presets.less");
+@import url("../presets.less");
 .navbar {
   display: flex;
   align-items: center;
@@ -60,6 +60,11 @@ li {
   font-weight: @fW400;
   font-family: @poppins;
 }
+button {
+  writing-mode: vertical-lr;
+  background: white;
+  transform: rotate(180deg);
+}
 .list5 {
   color: @lm-orange;
   font-weight: @fW500;
@@ -82,7 +87,7 @@ input {
   border-radius: 3px;
   padding: 3px;
 }
-.label {
+.label2 {
   display: flex;
   justify-content: center;
   align-items: center;

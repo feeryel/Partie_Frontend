@@ -1,0 +1,60 @@
+@import url("./presets.less");
+.signin-div {
+  width: 94vw;
+  height: 100vh;
+  padding-top: 3vw;
+  .input-log {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 17px 31px;
+    gap: 35px;
+    margin-bottom: 10px;
+    .email-log,
+    .password-log {
+      width: 30vw;
+      height: 3vh;
+      border: none;
+    }
+    .email-log::placeholder,
+    .password-log::placeholder {
+      color: @lm-elements;
+      font-family: @poppins;
+      font-style: normal;
+      font-weight: @fW400;
+      font-size: 14px;
+      line-height: 2px;
+      width: 30vw;
+      letter-spacing: 0.17em;
+    }
+  }
+  .log {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+    font-size: 17px;
+    width: 8vw;
+    // margin-left: 15vw;
+    font-family: @poppins;
+    margin-top: 20px;
+    font-style: normal;
+    font-weight: @fW300;
+    line-height: 50px;
+    box-shadow: -3px 5px 11px rgba(54, 67, 77, 0.2);
+    border-radius: 7px;
+    background: @lm-bg-rear;
+    border: @lm-solid-border;
+  }
+}
+.div-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 17px 25px;
+  margin-right: 15vw;
+  //   left: 25%;
+  //   gap: 35px;
+  margin-bottom: 10px;
+}

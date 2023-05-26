@@ -1,14 +1,40 @@
 import React, { useState } from "react";
 import "../_dist/Connecting.css";
 import { Divider, Modal } from "antd";
+import { addContact } from "./Redux/Actions/ContactAction";
+import { useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { ContactActionCreators } from "./Redux";
+import { Link } from "react-router-dom";
+import { dataEN } from "./data/EnglishData";
+import { dataFR } from "./data/FrenchData";
 const Connecting = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [Name, setName] = useState("");
-  const [Email, setEmail] = useState("");
-  const [Organisation, setOrganisation] = useState("");
-  const [Subject, setSubject] = useState("");
-  const [Message, setMessage] = useState("");
 
+  const [Data, setData] = useState(localStorage.getItem("language") || "");
+
+  const data_switch = (Data: any) => {
+    switch (Data) {
+      case "English":
+        return dataEN;
+      case "French":
+        return dataFR;
+      default:
+        return dataEN;
+    }
+  };
+
+  const data = data_switch(Data);
+  const dispatch = useDispatch();
+  const { addContact } = bindActionCreators(ContactActionCreators, dispatch);
+
+  const [NewContact, setNewContact] = useState({
+    Name: "",
+    email: "",
+    organisation: "",
+    subject: "",
+    message: "",
+  });
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -22,12 +48,9 @@ const Connecting = () => {
   };
   return (
     <div className="connecting-container">
-      <p className="quote">
-        “Collaborate on projects globally and locally with people and
-        organisations from all over the world.”
-      </p>
+      <p className="quote">{data?.connecting.p}</p>
       <div className="connecting-global">
-        <h2>connecting</h2>
+        <h2>{data?.connecting.h1}</h2>
         <div className="divider-title">
           <Divider type="horizontal" />
         </div>
@@ -35,18 +58,21 @@ const Connecting = () => {
           <div className="card">
             <div className="card-div">
               <div className="card-div1">
-                <h3>We can be part of your adventure</h3>
-                <p>
-                  We are diverse, authentic, and sincerely committed to building
-                  a better world.
-                </p>
+                <h3>{data?.connecting.title}</h3>
+                <p>{data?.connecting.h3}</p>
               </div>
               <div className="button1">
-                <button className="button" onClick={showModal}>
+                {/* <button className="button" onClick={showModal}>
                   Contact us
-                </button>
+                </button> */}
+                <Link to="/contactus" className="contact-button">
+                  {data?.nav.contactus}
+                </Link>
+                <Link to="/reportbug" className="report-button">
+                  {data?.connecting.button}
+                </Link>
               </div>
-              <div className="contact-us-modal">
+              {/* <div className="contact-us-modal">
                 <Modal
                   transitionName=""
                   // maskTransitionName=
@@ -64,7 +90,9 @@ const Connecting = () => {
                         type="text"
                         placeholder="Name"
                         className="champs"
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) =>
+                          setNewContact({ ...NewContact, Name: e.target.value })
+                        }
                       />
                       <div className="contact">
                         {" "}
@@ -75,7 +103,12 @@ const Connecting = () => {
                         type="email"
                         placeholder="Email"
                         className="champs"
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={(e) =>
+                          setNewContact({
+                            ...NewContact,
+                            email: e.target.value,
+                          })
+                        }
                       />
                       <div className="contact">
                         {" "}
@@ -86,10 +119,14 @@ const Connecting = () => {
                         type="text"
                         placeholder="Organisation"
                         className="champs"
-                        onChange={(e) => setOrganisation(e.target.value)}
+                        onChange={(e) =>
+                          setNewContact({
+                            ...NewContact,
+                            organisation: e.target.value,
+                          })
+                        }
                       />
                       <div className="contact">
-                        {" "}
                         <Divider type="horizontal" />
                       </div>
 
@@ -97,7 +134,12 @@ const Connecting = () => {
                         type="text"
                         placeholder="Subject"
                         className="champs"
-                        onChange={(e) => setSubject(e.target.value)}
+                        onChange={(e) =>
+                          setNewContact({
+                            ...NewContact,
+                            subject: e.target.value,
+                          })
+                        }
                       />
                       <div className="contact">
                         <Divider type="horizontal" />
@@ -115,14 +157,24 @@ const Connecting = () => {
                       <input
                         type="text"
                         className="message"
-                        onChange={(e) => setMessage(e.target.value)}
+                        onChange={(e) =>
+                          setNewContact({
+                            ...NewContact,
+                            message: e.target.value,
+                          })
+                        }
                         placeholder="Type your message here"
                       />
-                      <button className="send">Send</button>
+                      <button
+                        className="send"
+                        onClick={() => addContact(NewContact)}
+                      >
+                        Send
+                      </button>
                     </div>
                   </div>
                 </Modal>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

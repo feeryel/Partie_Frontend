@@ -1,0 +1,39 @@
+@import url("./presets.less");
+.nav-admin {
+  width: 49vw;
+  display: flex;
+  align-items: center;
+  //   background-color: #111111;
+  justify-content: center;
+  height: 15vh;
+  margin-left: 35rem;
+  gap: 15%;
+}
+.navbar-admin {
+  width: 15vw;
+}
+.search {
+  background-color: #212121;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 8rem 1rem 1rem;
+  border-radius: 1rem;
+  svg {
+    color: #577698;
+  }
+  input {
+    background-color: transparent;
+    border: none;
+    color: #577698;
+    font-family: "Permanent Marker", cursive;
+    letter-spacing: 0.3rem;
+    &:focus {
+      outline: none;
+    }
+    &::placeholder {
+      color: #577698;
+      font-family: "Permanent Marker", cursive;
+    }
+  }
+}

@@ -1,0 +1,42 @@
+@import url("./presets.less");
+// .coming-soon {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: flex-start;
+//   gap: 10px;
+//   box-shadow: inset 0px 5px 5px rgba(0, 0, 0, 0.43);
+//   width: 98vw;
+//   height: 70vh;
+//   margin: 15px;
+//   border: 7px solid #ffffff;
+//   border-radius: 17px;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   padding: 31px;
+//   gap: 31px;
+//   box-sizing: border-box;
+// }
+.coming-img {
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
+  width: 70vw;
+  height: 80vh;
+  margin-top: 6rem;
+  margin-bottom: 5rem;
+  margin-right: 15rem;
+  margin-left: 18rem;
+  animation: slide-right 1s forwards;
+  transform: translateX(-100%); /* start position */
+  object-fit: contain;
+}
+
+.slide-right {
+  overflow: initial;
+}
+
+@keyframes slide-right {
+  to {
+    transform: translateX(0); /* end position */
+  }
+}

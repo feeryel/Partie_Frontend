@@ -1,48 +1,56 @@
-import React from "react";
+import React, { useState } from "react";
 import "../_dist/Question1.css";
 import { Divider } from "antd";
+import { dataEN } from "./data/EnglishData";
+import { dataFR } from "./data/FrenchData";
 const Question1 = () => {
+  const [Data, setData] = useState(localStorage.getItem("language") || "");
+
+  const data_switch = (Data: any) => {
+    switch (Data) {
+      case "English":
+        return dataEN;
+      case "French":
+        return dataFR;
+      default:
+        return dataEN;
+    }
+  };
+
+  const data = data_switch(Data);
   return (
     <div className="question-container">
-      <p className="quote">
-        “A solid foundation to plan your professional life, and a trustworthy
-        foothold to go forward with your career.”
-      </p>
+      <p className="quote">{data?.question1.p1}</p>
       <div className="question">
-        <h1>Why Are We Doing This?</h1>
+        <h1>{data?.question1.h1}</h1>
         <div className="divider-question1">
           <Divider type="horizontal" />
         </div>
       </div>
       <div className="question-paragraph">
         <p>
-          Try asking around
-          <span className="span1">
-            “what's the biggest challenge holding you up from living a better
-            life?”
-          </span>
+          {data?.question1.p2}
+          <span className="span1">{data?.question1.span1}</span>
         </p>
 
         <p>
-          In nearly every answer we found out that it's all about
+          {data?.question1.p3}{" "}
           <span className="span2">
             {" "}
-            access to some sort of skill set.
-            <br />
+            {data?.question1.span2} <br />
           </span>
-          Money is nothing more than a medium for service, and
+          {data?.question1.p4}{" "}
           <span className="span2">
-            good service comes from people
-            <br /> who turned their skills into careers.
+            {data?.question1.span3} <br />
           </span>
         </p>
 
         <p>
-          While good <span className="span2">careers</span> come from safe,
-          synergetic economical and social systems, we'll help <br />
-          you
-          <span> identify</span>,<span>secure</span>, and
-          <span> solidify</span> one that is most compatible to your needs.
+          {data?.question1.p5}
+          <span className="span2">{data?.question1.span4}</span>{" "}
+          {data?.question1.p6} <br />
+          <span> {data?.question1.span5}</span> {data?.question1.p7}
+          <span> {data?.question1.span7}</span> {data?.question1.p8}
         </p>
       </div>
     </div>

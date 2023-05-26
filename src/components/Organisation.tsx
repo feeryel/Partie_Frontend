@@ -1,32 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import "../_dist/Organisation.css";
 import { Divider } from "antd";
+import { dataEN } from "./data/EnglishData";
+import { dataFR } from "./data/FrenchData";
 const Organisation = () => {
+  const [Data, setData] = useState(localStorage.getItem("language") || "");
+
+  const data_switch = (Data: any) => {
+    switch (Data) {
+      case "English":
+        return dataEN;
+      case "French":
+        return dataFR;
+      default:
+        return dataEN;
+    }
+  };
+
+  const data = data_switch(Data);
   return (
     <div className="org">
       <div className="orgdiv1">
-        <p>
-          “Benchmarking peer-reviewed insider knowledge and insights about the
-          industry.”
-        </p>
+        <p>{data?.organisation.p1}</p>
       </div>
       <div className="orgdiv2">
-        <h1>what if ... </h1>
+        <h1>{data?.organisation.h1} </h1>
         <div className="divider-organisation">
           <Divider type="horizontal" className="organisation-divider-section" />
         </div>
-        <h2 className="h">Your organisation</h2>
-        <p className="p1">
-          ... could have a living portfolio that would naturally connect you
-          with the best opportunities, in terms of projects, partnerships and
-          human capital?
-        </p>
-        <h2 className="hh">You yourself</h2>
-        <p className="p2">
-          ... could showcase your entire career on a platform that would
-          naturally connect you to organisations and entities that share your
-          values and views?
-        </p>
+        <h2 className="h">{data?.organisation.organisation}</h2>
+        <p className="p1">{data?.organisation.p2}</p>
+        <h2 className="hh">{data?.organisation.yourself}</h2>
+        <p className="p2">{data?.organisation.p3}</p>
       </div>
     </div>
   );

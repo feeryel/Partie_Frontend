@@ -1,0 +1,170 @@
+@import url("./presets.less");
+.login-div {
+  width: 100vw;
+  left: 35%;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding-top: 35px;
+}
+// .login-div .ant-modal-content {
+//   padding: 0px;
+// }
+// .button-private .ant-btn {
+//   display: none;
+// }
+.body2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  .left {
+    // background-color: aqua;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1%;
+    width: 40%;
+    padding-top: 15vh;
+    .private-signin {
+      align-items: center;
+      text-align: center;
+      display: flex;
+      flex-direction: row;
+      width: 8vw;
+      border-radius: 7px;
+      background-color: @dark-grey;
+      padding: 7px 14px;
+      height: 7vh;
+      font-family: @poppins;
+      font-size: 15px;
+      font-weight: @fW500;
+      border: 1px solid @lm-3rd-layer;
+      color: @lm-3rd-layer;
+    }
+    .society-signin {
+      align-items: center;
+      text-align: center;
+      width: 19vw;
+      border-radius: 7px;
+      background-color: @lm-bg-layer;
+      padding-top: 19px;
+      height: 5vh;
+      font-family: @poppins;
+      font-size: 15px;
+      font-weight: @fW500;
+      border: none;
+      color: @dark-grey;
+    }
+    h2 {
+      font-family: @poppins;
+      font-style: normal;
+      font-weight: @fW300;
+      font-size: 47px;
+      line-height: 100px;
+      letter-spacing: 0.17em;
+      text-align: center;
+      padding-bottom: 29px;
+    }
+    img {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      width: 5vw;
+      gap: 10px;
+    }
+  }
+  .right {
+    // background-color: brown;
+    height: 100%;
+    width: 50%;
+    display: flex;
+    padding-top: 9vh;
+    padding-left: 9vh;
+    padding-bottom: 9vh;
+    flex-direction: column;
+    align-items: center;
+    .champ {
+      font-family: @poppins;
+      font-style: normal;
+      font-weight: @fW400;
+      font-size: 14px;
+      line-height: 2px;
+      width: 30vw;
+      letter-spacing: 0.17em;
+      border: none;
+
+      padding-top: 21px;
+      // padding-left: 0px;
+    }
+    .champ::placeholder {
+      color: @lm-elements;
+    }
+    .checkbox h3 {
+      font-weight: @fW300;
+      font-family: @poppins;
+      font-style: normal;
+      color: @lm-elements;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      letter-spacing: 0.13em;
+      width: 29vw;
+    }
+    .div-login2 {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      width: 30vw;
+      padding-top: 20px;
+      .link-login {
+        align-items: center;
+        text-align: center;
+        width: 5vw;
+        background-color: @lm-bg-layer;
+        height: 5vh;
+        font-family: @poppins;
+        font-size: 17px;
+        text-decoration: none;
+        font-weight: @fW500;
+        border: none;
+        color: @lm-green;
+      }
+      .label-account {
+        align-items: center;
+        text-align: center;
+        width: 17vw;
+        border-radius: 7px;
+        background-color: @lm-bg-layer;
+        // padding: 7px 15px;
+        height: 5vh;
+        letter-spacing: 0.17em;
+        font-family: @poppins;
+        font-size: 17px;
+        font-weight: @fW300;
+        border: none;
+        color: @dark-grey;
+      }
+    }
+
+    .create {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      padding: 5px 5px;
+      border: 1px solid @dark-grey;
+      border-radius: 7px;
+      background-color: @lm-bg-layer;
+      box-shadow: 0px 5px 10px rgba(57, 71, 81, 0.1);
+      height: 7vh;
+      font-size: 13px;
+      font-family: @poppins;
+      font-weight: @fW500;
+      width: 13vw;
+    }
+  }
+}
