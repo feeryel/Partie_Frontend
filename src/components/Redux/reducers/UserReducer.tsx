@@ -12,15 +12,29 @@ import {
   LOGIN_USER_FAIL,
   LOGIN_USER_SUCCESS,
   LOGIN_USER,
+  GET_CURRENTUSER_FAIL,
+  GET_CURRENTUSER_SUCCESS,
+  GET_CURRENTUSER,
 } from "../Constante/UserType";
 
-interface User {
-  // Define the shape of the contact object
-  // Update the types based on your actual data structure
-  // For example: id: number, name: string, etc.
+export interface User {
+  currentUser: any;
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  birthday: string;
+  profileimage: null;
+  bannerimage: null;
+  biography: null;
+  role: string;
 }
-interface UserState {
+export interface UserState {
   userListe: User[];
+  currentUser: User[];
   errors: any | null;
   status: string;
   isAuthentificated: boolean;
@@ -33,6 +47,7 @@ interface UserAction {
 
 const initialState: UserState = {
   userListe: [],
+  currentUser: [],
   errors: null,
   status: "",
   isAuthentificated: false,
@@ -63,10 +78,18 @@ const UserReducer = (
     case LOGIN_USER:
       return { ...state, status: payload };
     case LOGIN_USER_SUCCESS:
-      // localStorage.setItem("token", action?.payload?.accessToken);
+      localStorage.setItem("token", payload.accessToken);
       return { ...state, status: payload, isAuthentificated: true };
     case LOGIN_USER_FAIL:
       return { ...state, status: payload };
+    case GET_CURRENTUSER_FAIL:
+      return { ...state, status: "fail" };
+    case GET_CURRENTUSER_SUCCESS:
+      return { ...state, status: "success", currentUser: payload };
+    case GET_CURRENTUSER:
+      return { ...state, status: "request send" };
+
+    case LOGIN_USER:
     default:
       return state;
   }

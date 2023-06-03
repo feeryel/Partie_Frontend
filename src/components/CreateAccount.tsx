@@ -4,10 +4,12 @@ import { bindActionCreators } from "redux";
 import { UserActionCreators } from "./Redux";
 import { useDispatch } from "react-redux";
 import "../_dist/CreateAccount.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { dataEN } from "./data/EnglishData";
 import { dataFR } from "./data/FrenchData";
+import { setInterval } from "timers";
 const CreateAccount = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { addUser, loginUser } = bindActionCreators(
     UserActionCreators,
@@ -36,6 +38,12 @@ const CreateAccount = () => {
     confirmPassword: "",
     birthday: "",
   });
+
+  const createUser = () => {
+    addUser(NewUser);
+
+    navigate("/signin");
+  };
 
   return (
     <div className="login-div">
@@ -135,7 +143,7 @@ const CreateAccount = () => {
             <Link to="/signin" className="link-login">
               {data?.signinComponent.button}
             </Link>
-            <button className="create" onClick={() => addUser(NewUser)}>
+            <button className="create" onClick={() => createUser()}>
               {data?.createaccount.button}
             </button>
           </div>

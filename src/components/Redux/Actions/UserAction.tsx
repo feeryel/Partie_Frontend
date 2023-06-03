@@ -1,3 +1,5 @@
+import jwt_decode from "jwt-decode";
+
 import {
   GET_USER,
   GET_USER_SUCCESS,
@@ -11,6 +13,9 @@ import {
   LOGIN_USER,
   LOGIN_USER_FAIL,
   LOGIN_USER_SUCCESS,
+  GET_CURRENTUSER,
+  GET_CURRENTUSER_FAIL,
+  GET_CURRENTUSER_SUCCESS,
 } from "../Constante/UserType";
 import axios from "axios";
 import { Dispatch } from "redux";
@@ -45,6 +50,10 @@ interface DeleteUserFailAction {
   type: typeof DELETE_USER_FAIL;
   payload: any; // Update the type based on your error data type
 }
+interface LoginUserAction {
+  type: typeof LOGIN_USER;
+  payload: UserData;
+}
 interface LoginUserSuccessAction {
   type: typeof LOGIN_USER_SUCCESS;
   payload: UserData;
@@ -75,8 +84,20 @@ interface LOGINUserAction {
   type: typeof LOGIN_USER;
   payload: any; // Update the type based on your error data type
 }
+interface GetCurrentUserAction {
+  type: typeof GET_CURRENTUSER;
+}
+interface GetCurrentUserActionFail {
+  type: typeof GET_CURRENTUSER_FAIL;
+  payload: any; // Update the type based on your error data type
+}
+interface GetCurrentUserActionSuccess {
+  type: typeof GET_CURRENTUSER_SUCCESS;
+  payload: any; // Update the type based on your error data type
+}
 // Define the combined type for all possible actions
 type UserAction =
+  | LoginUserAction
   | GetUserAction
   | GetUserSuccessAction
   | GetUserFailAction
@@ -88,7 +109,10 @@ type UserAction =
   | DELETEUserAction
   | LOGINUserAction
   | LoginUserFailAction
-  | LoginUserSuccessAction;
+  | LoginUserSuccessAction
+  | GetCurrentUserAction
+  | GetCurrentUserActionFail
+  | GetCurrentUserActionSuccess;
 
 export const getUser = () => async (dispatch: Dispatch<UserAction>) => {
   dispatch({ type: GET_USER });
@@ -111,11 +135,28 @@ export const getUser = () => async (dispatch: Dispatch<UserAction>) => {
   }
 };
 export const loginUser =
-  (user: user) => async (dispatch: Dispatch<UserAction>) => {
-    // dispatch({ type: LOGIN_USER });
+  (user: { email: string; password: string }) =>
+  async (dispatch: Dispatch<UserAction>) => {
+    dispatch({ type: LOGIN_USER, payload: "sent" });
     try {
       let result = await axios.post("/user/login", user);
       dispatch({ type: LOGIN_USER_SUCCESS, payload: result.data });
+      localStorage.setItem("token", result.data.access_token);
+
+      // Decode the access token
+      const decoded: { role: string } = jwt_decode(result.data.access_token);
+      console.log(decoded.role);
+      // Example: Extract the user role from the decoded token
+
+      // Perform additional logic or dispatch actions based on the decoded token
+      // ...
+
+      // Redirect based on user role
+      if (decoded.role === 'admin') {
+      window.location.href = '/admin/dashboard';
+    } else {
+      window.location.href = '/';
+    }
     } catch (error) {
       dispatch({ type: LOGIN_USER_FAIL, payload: error });
       console.log(error);
@@ -140,3 +181,18 @@ export const deleteUser =
       console.log(error);
     }
   };
+
+export const userCurrent = () => async (dispatch: Dispatch<UserAction>) => {
+  dispatch({ type: GET_CURRENTUSER });
+  const accessToken = localStorage.getItem("token");
+  try {
+    let result = await axios.get("/user/current", {
+      headers: {
+        Authorization: accessToken ? `Bearer ${accessToken}` : "",
+      },
+    });
+    dispatch({ type: GET_CURRENTUSER_SUCCESS, payload: result.data });
+  } catch (error) {
+    dispatch({ type: GET_CURRENTUSER_FAIL, payload: error });
+  }
+};

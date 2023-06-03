@@ -33,6 +33,7 @@ import SharedLayoutDashboard from "./components/SharedLayoutDashboard";
 import ComingSoon from "./components/ComingSoon";
 import Reports from "./components/Admin/Reports";
 import ReportBug from "./components/ReportBug";
+import PrivateRoute from "./components/PrivateRoute";
 
 // export const DataContext = React.createContext<any>(null);
 
@@ -101,23 +102,26 @@ function App() {
           >
             {/* <Route index element={<Section />} /> */}
             {/* <Route path="/" element={<Section />} /> */}
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/Signin" element={<SignIn />} />
+            <Route path="/Createaccount" element={<CreateAccount />} />{" "}
+            <Route path="/admin/dashboard" element={<Dashboard />} />
           </Route>
-          <Route path="admin" element={<SharedLayoutDashboard />}>
-            <Route path="/admin/Dashboard" element={<Dashboard />} />
-            <Route path="/admin/users" element={<Users />} />
-            <Route path="/admin/contacts" element={<Contacts />} />
-            <Route path="/admin/reports" element={<Reports />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="admin" element={<SharedLayoutDashboard />}>
+              <Route path="/admin/users" element={<Users />} />
+              <Route path="/admin/contacts" element={<Contacts />} />
+              <Route path="/admin/reports" element={<Reports />} />
+            </Route>
+            <Route path="/contactus" element={<ContactUs />} />
+            <Route path="/reportbug" element={<ReportBug />} />
+
+            <Route path="/comingsoon" element={<ComingSoon />} />
+            <Route path="/roadmap" element={<Roadmap />} />
+            <Route path="/magazine" element={<Magazine />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/reportbug" element={<ReportBug />} />
           </Route>
-          <Route path="/contactus" element={<ContactUs />} />
-          <Route path="/reportbug" element={<ReportBug />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/CreateAccount" element={<CreateAccount />} />
-          <Route path="/Signin" element={<SignIn />} />
-          <Route path="/comingsoon" element={<ComingSoon />} />
-          <Route path="/roadmap" element={<Roadmap />} />
-          <Route path="/magazine" element={<Magazine />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/reportbug" element={<ReportBug />} />
 
           {/* <Route path="/*" element={<Section />} /> */}
         </Routes>
