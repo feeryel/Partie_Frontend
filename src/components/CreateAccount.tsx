@@ -1,4 +1,4 @@
-import { Checkbox, Divider, Modal } from "antd";
+import { Checkbox, Divider, Modal, message } from "antd";
 import React, { useState } from "react";
 import { bindActionCreators } from "redux";
 import { UserActionCreators } from "./Redux";
@@ -7,6 +7,7 @@ import "../_dist/CreateAccount.css";
 import { Link } from "react-router-dom";
 import { dataEN } from "./data/EnglishData";
 import { dataFR } from "./data/FrenchData";
+
 const CreateAccount = () => {
   const dispatch = useDispatch();
   const { addUser, loginUser } = bindActionCreators(
@@ -35,7 +36,32 @@ const CreateAccount = () => {
     password: "",
     confirmPassword: "",
     birthday: "",
+    bannerimage: "",
+    profilimage: "",
+    biography: "",
   });
+
+  const handleSignUp = () => {
+    // Perform email and password validation checks
+    if (!validateEmail(NewUser.email)) {
+      message.error("Invalid email address");
+      return;
+    }
+
+    if (NewUser.password !== NewUser.confirmPassword) {
+      message.error("Passwords do not match");
+      return;
+    }
+
+    // Call the addUser action to register the new user
+    addUser(NewUser);
+  };
+
+  const validateEmail = (email: string) => {
+    // Simple email validation using regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   return (
     <div className="login-div">
@@ -122,6 +148,48 @@ const CreateAccount = () => {
           <div className="contact1">
             <Divider type="horizontal" />
           </div>
+          <input
+            type="file"
+            placeholder="banner image"
+            className="champ"
+            onChange={(e) =>
+              setNewUser({
+                ...NewUser,
+                bannerimage: e.target.value,
+              })
+            }
+          />
+          <div className="contact1">
+            <Divider type="horizontal" />
+          </div>
+          <input
+            type="file"
+            placeholder="profile image"
+            className="champ"
+            onChange={(e) =>
+              setNewUser({
+                ...NewUser,
+                profilimage: e.target.value,
+              })
+            }
+          />
+          <div className="contact1">
+            <Divider type="horizontal" />
+          </div>
+          <input
+            type="text"
+            placeholder="Biography"
+            className="champ"
+            onChange={(e) =>
+              setNewUser({
+                ...NewUser,
+                biography: e.target.value,
+              })
+            }
+          />
+          <div className="contact1">
+            <Divider type="horizontal" />
+          </div>
           <Checkbox className="checkbox">
             <h3>{data?.createaccount.chekbox}</h3>
           </Checkbox>
@@ -135,7 +203,7 @@ const CreateAccount = () => {
             <Link to="/signin" className="link-login">
               {data?.signinComponent.button}
             </Link>
-            <button className="create" onClick={() => addUser(NewUser)}>
+            <button className="create" onClick={handleSignUp}>
               {data?.createaccount.button}
             </button>
           </div>

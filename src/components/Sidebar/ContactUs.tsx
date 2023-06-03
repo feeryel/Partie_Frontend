@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { ContactActionCreators } from "../Redux";
 import emailjs from "@emailjs/browser";
+import { Alert, Button, Divider } from "antd";
 
-import { Button, Divider } from "antd";
 import "../../_dist/ContactUs.css";
 import form from "antd/es/form";
 import { dataEN } from "../data/EnglishData";
@@ -12,7 +12,8 @@ import { dataFR } from "../data/FrenchData";
 const ContactUs = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [Data, setData] = useState(localStorage.getItem("language") || "");
-
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
   const data_switch = (Data: any) => {
     switch (Data) {
       case "English":
@@ -28,8 +29,29 @@ const ContactUs = () => {
   const form = useRef<HTMLFormElement>(null);
 
   const sendEmail = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    addContact(NewContact);
     e.preventDefault();
+
+    if (
+      !NewContact.email ||
+      !NewContact.Name ||
+      !NewContact.organisation ||
+      !NewContact.subject ||
+      !NewContact.message
+    ) {
+      setErrorMessage("Please fill in all the fields.");
+      setSuccessMessage("");
+      return;
+    }
+
+    // Validate email using a regular expression
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(NewContact.email)) {
+      setErrorMessage("Please enter a valid email address.");
+      setSuccessMessage("");
+      return;
+    }
+
+    addContact(NewContact);
     console.log("send Email");
     if (form.current) {
       emailjs
@@ -42,9 +64,13 @@ const ContactUs = () => {
         .then(
           (result: { text: any }) => {
             console.log(result.text);
+            setErrorMessage("");
+            setSuccessMessage("Message sent successfully!");
           },
           (error: { text: any }) => {
             console.log(error.text);
+            setErrorMessage("An error occurred while sending the email.");
+            setSuccessMessage("");
           }
         );
     }
@@ -62,6 +88,26 @@ const ContactUs = () => {
 
   return (
     <div>
+      {errorMessage && (
+        <Alert
+          message={errorMessage}
+          type="error"
+          showIcon
+          closable
+          className="alert"
+          style={{ position: "absolute", top: 0, width: "100%" }}
+        />
+      )}
+      {successMessage && (
+        <Alert
+          message={successMessage}
+          type="success"
+          showIcon
+          closable
+          className="alert"
+          style={{ position: "absolute", top: 0, width: "100%" }}
+        />
+      )}
       <div
         // maskTransitionName=
         className="contact-div"

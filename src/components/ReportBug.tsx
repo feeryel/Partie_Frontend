@@ -1,100 +1,165 @@
-import React, { useState } from "react";
-import "../../src/_dist/ReportBug.css";
+import { Checkbox, Divider, Modal } from "antd";
+import React, { useRef, useState } from "react";
+import { bindActionCreators } from "redux";
+import { ReportActionCreators } from "./Redux";
+import { useDispatch } from "react-redux";
+import "../_dist/CreateAccount.css";
+import emailjs from "@emailjs/browser";
+import { Link } from "react-router-dom";
+import { dataEN } from "./data/EnglishData";
+import { dataFR } from "./data/FrenchData";
 
-function ReportBug() {
-  const [bugType, setBugType] = useState("");
-  const [description, setDescription] = useState("");
-  const [email, setEmail] = useState("");
-  const [image, setImage] = useState(null);
+const ReportBug = () => {
+  const dispatch = useDispatch();
+  const { addReport } = bindActionCreators(ReportActionCreators, dispatch);
 
-  const handleBugTypeChange = (e: any) => {
-    setBugType(e.target.value);
+  const [Data, setData] = useState(localStorage.getItem("language") || "");
+  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [errorModalVisible, setErrorModalVisible] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const data_switch = (Data: any) => {
+    switch (Data) {
+      case "English":
+        return dataEN;
+      case "French":
+        return dataFR;
+      default:
+        return dataEN;
+    }
   };
 
-  const handleDescriptionChange = (e: any) => {
-    setDescription(e.target.value);
+  const data = data_switch(Data);
+  const [NewReport, setNewReport] = useState({
+    typeBug: "",
+    description: "",
+    image: "",
+    email: "",
+  });
+  const form = useRef<HTMLFormElement>(null);
+
+  const validateEmail = (email: string) => {
+    // Email validation regex pattern
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
   };
 
-  const handleEmailChange = (e: any) => {
-    setEmail(e.target.value);
-  };
-
-  const handleImageChange = (e: any) => {
-    const file = e.target.files[0];
-    setImage(file);
-  };
-
-  const handleSubmit = (e: any) => {
+  const sendEmail = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    // Here you can implement the logic to submit the bug report
-    // For this example, let's just log the values to the console
-    console.log("Bug Type:", bugType);
-    console.log("Bug Description:", description);
-    console.log("Email:", email);
-    console.log("Image:", image);
 
-    // Reset form fields
-    setBugType("");
-    setDescription("");
-    setEmail("");
-    setImage(null);
+    if (!validateEmail(NewReport.email)) {
+      setIsValidEmail(false);
+      setErrorMessage("Invalid email address");
+      setErrorModalVisible(true);
+      return;
+    }
+
+    setIsValidEmail(true);
+    setErrorMessage("");
+    setErrorModalVisible(false);
+    setSuccessMessage("Report sent successfully!");
+
+    addReport(NewReport);
+    console.log("send Email");
+
+    if (form.current) {
+      emailjs
+        .sendForm(
+          "service_nfdnkop",
+          "template_7z7b6bc",
+          form.current,
+          "4vHOD4U-u76RQAR7b"
+        )
+        .then(
+          (result: { text: any }) => {
+            console.log(result.text);
+          },
+          (error: { text: any }) => {
+            console.log(error.text);
+          }
+        );
+    }
   };
 
   return (
-    <div className="report-div">
-      <img src="../images/logokwk.svg" alt="Logo KwK" />
-      <h2>Report Bug</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="report-container">
-          <div className="container1">
-            <label htmlFor="bugType">Bug Type</label>
-            <select
-              id="bugType"
-              value={bugType}
-              onChange={handleBugTypeChange}
-              required
-            >
-              <option value="">Select a bug type</option>
-              <option value="UI">UI Bug</option>
-              <option value="Functionality">Functionality Bug</option>
-              <option value="Crash">Crash Bug</option>
-              <option value="Other">Other Bug</option>
-            </select>
+    <form className="login-div" ref={form}>
+      <div className="body2">
+        <div className="right">
+          <input
+            type="text"
+            placeholder="typebug"
+            className="champ"
+            name="user-typebug"
+            required
+            onChange={(e) =>
+              setNewReport({ ...NewReport, typeBug: e.target.value })
+            }
+          />
+          <div className="contact1">
+            <Divider type="horizontal" />
           </div>
-          <div className="container2">
-            <label htmlFor="description">Bug Description</label>
-            <textarea
-              id="description"
-              value={description}
-              onChange={handleDescriptionChange}
-              required
-            />
+          <input
+            type="text"
+            placeholder="email"
+            className="champ"
+            name="user-email"
+            onChange={(e) => {
+              setNewReport({ ...NewReport, email: e.target.value });
+              setIsValidEmail(true);
+              setErrorMessage("");
+            }}
+          />
+          {!isValidEmail && <div className="error-message">{errorMessage}</div>}
+          {isValidEmail && successMessage && (
+            <div className="success-message">{successMessage}</div>
+          )}
+          <div className="contact1">
+            <Divider type="horizontal" />
           </div>
-          <div className="container3">
-            <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={handleEmailChange}
-              required
-            />
+          <input
+            type="text"
+            placeholder="description"
+            name="user-description"
+            className="champ"
+            onChange={(e) =>
+              setNewReport({ ...NewReport, description: e.target.value })
+            }
+          />
+          <div className="contact1">
+            <Divider type="horizontal" />
           </div>
-          <div className="container4">
-            <label htmlFor="image">Bug Screenshot</label>
-            <input
-              type="file"
-              id="image"
-              accept="image/*"
-              onChange={handleImageChange}
-            />
-          </div>
+          <input
+            type="text"
+            placeholder="image"
+            className="champ"
+            onChange={(e) =>
+              setNewReport({ ...NewReport, image: e.target.value })
+            }
+          />
 
-          <button type="submit">Submit Bug Report</button>
+          <div className="div-login2">
+            {/* <button className="login-button" onClick={showModalL}>
+              Log In
+            </button> */}
+
+            <button className="create" onClick={sendEmail}>
+              Add new report
+            </button>
+          </div>
         </div>
-      </form>
-    </div>
+      </div>
+
+      <Modal
+        title="Error"
+        visible={errorModalVisible}
+        onCancel={() => setErrorModalVisible(false)}
+        footer={null}
+      >
+        <p>{errorMessage}</p>
+      </Modal>
+    </form>
   );
-}
+};
 
 export default ReportBug;

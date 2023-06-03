@@ -101,7 +101,7 @@ export const getReport = () => async (dispatch: Dispatch<ReportAction>) => {
     });
 
     dispatch({ type: GET_REPORT_SUCCESS, payload: result.data });
-    console.log(result);
+
     // Check if user is an admin and redirect to admin dashboard
     // if (result.data.isAdmin) {
     //   window.location.href = "/admin/dashboard";

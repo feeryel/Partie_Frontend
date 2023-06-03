@@ -21,7 +21,7 @@ import {
   State,
   UserActionCreators,
 } from "./components/Redux";
-import { deleteUser } from "./components/Redux/Actions/UserAction";
+import { deleteUser, getUser } from "./components/Redux/Actions/UserAction";
 import { deleteContact } from "./components/Redux/Actions/ContactAction";
 import CreateAccount from "./components/CreateAccount";
 import SignIn from "./components/SignIn";
@@ -33,7 +33,7 @@ import SharedLayoutDashboard from "./components/SharedLayoutDashboard";
 import ComingSoon from "./components/ComingSoon";
 import Reports from "./components/Admin/Reports";
 import ReportBug from "./components/ReportBug";
-
+import Profile from "./components/Profile";
 // export const DataContext = React.createContext<any>(null);
 
 function App() {
@@ -66,10 +66,10 @@ function App() {
   // };
 
   // const data = data_switch(Data);
-  const { getUser, deleteUser, loginUser } = bindActionCreators(
-    UserActionCreators,
-    dispatch
-  );
+  // const { getUser, deleteUser } = bindActionCreators(
+  //   UserActionCreators,
+  //   dispatch
+  // );
 
   const contacts = useSelector(
     (state: State) => state.ContactReducer.contactListe
@@ -117,11 +117,11 @@ function App() {
           <Route path="/roadmap" element={<Roadmap />} />
           <Route path="/magazine" element={<Magazine />} />
           <Route path="/pricing" element={<Pricing />} />
-          <Route path="/reportbug" element={<ReportBug />} />
+          {/* <Route path="/reportbug" element={<ReportBug />} /> */}
+          <Route path="/profile" element={<Profile />} />
 
           {/* <Route path="/*" element={<Section />} /> */}
         </Routes>
-        {/* </DataContext.Provider> */}
       </BrowserRouter>
 
       {/* <div className="test">

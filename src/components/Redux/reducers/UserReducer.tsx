@@ -12,21 +12,34 @@ import {
   LOGIN_USER_FAIL,
   LOGIN_USER_SUCCESS,
   LOGIN_USER,
+  GET_CURRENT_USER,
+  GET_CURRENT_USER_FAIL,
+  GET_CURRENT_USER_SUCCESS,
 } from "../Constante/UserType";
 
-interface User {
-  // Define the shape of the contact object
-  // Update the types based on your actual data structure
-  // For example: id: number, name: string, etc.
+export interface User {
+  image: any;
+  typeBug: any;
+  description: any;
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  birthday: string;
+  bannerimage: string;
+  profilimage: string;
+  biography: string;
 }
-interface UserState {
+
+export interface UserState {
   userListe: User[];
   errors: any | null;
   status: string;
   isAuthentificated: boolean;
+  currentUser: User | undefined;
 }
 
-interface UserAction {
+export interface UserAction {
   type: string;
   payload: any; // Update the type based on your payload data type
 }
@@ -36,7 +49,9 @@ const initialState: UserState = {
   errors: null,
   status: "",
   isAuthentificated: false,
+  currentUser: {} as User,
 };
+
 const UserReducer = (
   state: UserState = initialState,
   { type, payload }: UserAction
@@ -47,6 +62,12 @@ const UserReducer = (
     case GET_USER_SUCCESS:
       return { ...state, status: "Success", userListe: payload };
     case GET_USER_FAIL:
+      return { ...state, status: "Fail", errors: payload };
+    case GET_CURRENT_USER:
+      return { ...state, status: "request send" };
+    case GET_CURRENT_USER_SUCCESS:
+      return { ...state, status: "Success", currentUser: payload };
+    case GET_CURRENT_USER_FAIL:
       return { ...state, status: "Fail", errors: payload };
     case ADD_USER:
       return { ...state, status: payload };
@@ -63,8 +84,13 @@ const UserReducer = (
     case LOGIN_USER:
       return { ...state, status: payload };
     case LOGIN_USER_SUCCESS:
-      // localStorage.setItem("token", action?.payload?.accessToken);
-      return { ...state, status: payload, isAuthentificated: true };
+      return {
+        ...state,
+        status: payload,
+        isAuthentificated: true,
+
+        currentUser: payload,
+      };
     case LOGIN_USER_FAIL:
       return { ...state, status: payload };
     default:

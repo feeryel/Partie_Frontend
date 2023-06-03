@@ -15,6 +15,10 @@ import {
 } from "../Constante/ReportType";
 
 interface Report {
+  email: any;
+  typeBug: any;
+  description: any;
+  image: any;
   // Define the shape of the contact object
   // Update the types based on your actual data structure
   // For example: id: number, name: string, etc.

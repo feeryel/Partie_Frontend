@@ -11,14 +11,15 @@ type Props = {};
 
 const SharedLayoutDashboard = (props: Props) => {
   return (
-    <>
-      <SidebarAdmin />
+    <div className="dashboard">
       <NavbarAdmin />
+      <SidebarAdmin />
+
       {/* <Dashboard /> */}
       <div className="outlet-section">
         <Outlet />
       </div>
-    </>
+    </div>
   );
 };
 

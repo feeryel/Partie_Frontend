@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
-import "../../_dist/Users.css";
+// import "../../_dist/Users.css";
 import { bindActionCreators } from "redux";
 import { State, UserActionCreators } from "../Redux";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 const Users = () => {
   const dispatch = useDispatch();
 
@@ -49,7 +50,13 @@ const Users = () => {
               <td>{user.birthday}</td>
               <td>{user.role}</td>
               <td>
-                <button className="btn btn-primary mr-2">Edit</button>
+                <Button
+                  variant="outlined"
+                  onClick={() => handleDelete(user.id)}
+                  startIcon={<EditIcon />}
+                >
+                  Edit
+                </Button>
                 <Button
                   variant="outlined"
                   onClick={() => handleDelete(user.id)}

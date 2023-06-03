@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { UserActionCreators } from "./Redux";
 import { bindActionCreators } from "redux";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom"; // Import useNavigate hook
 import { Divider } from "antd";
 import "../_dist/SignIn.css";
 import { dataEN } from "./data/EnglishData";
@@ -10,6 +11,7 @@ import { dataFR } from "./data/FrenchData";
 const SignIn = () => {
   const dispatch = useDispatch();
   const { loginUser } = bindActionCreators(UserActionCreators, dispatch);
+  const navigate = useNavigate(); // Access the navigate function
 
   const [Data, setData] = useState(localStorage.getItem("language") || "");
 
@@ -29,6 +31,11 @@ const SignIn = () => {
     email: "",
     password: "",
   });
+
+  const handleLogin = async () => {
+    await loginUser(User);
+    navigate("/profile"); // Redirect to the profile page
+  };
 
   return (
     <div>
@@ -51,7 +58,7 @@ const SignIn = () => {
           />
         </div>
         <div className="div-login">
-          <button className="log" onClick={() => loginUser(User)}>
+          <button className="log" onClick={handleLogin}>
             {data?.signinComponent.button}
           </button>
         </div>

@@ -1,55 +1,65 @@
-import React from "react";
-import SidebarAdmin from "./SidebarAdmin";
-import { Typography } from "@material-ui/core";
-import { Link } from "react-router-dom";
-// import { Line } from "react-chartjs-2";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-} from "recharts";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Pie } from "@ant-design/plots";
+
+import { getReport } from "../Redux/Actions/ReportAction";
+import { ReportActionCreators, State } from "../Redux";
+import { bindActionCreators } from "redux";
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
+
+  const reports = useSelector(
+    (state: State) => state.ReportReducer.reportListe
+  );
+
+  const { getReport } = bindActionCreators(ReportActionCreators, dispatch);
+  useEffect(() => {
+    getReport();
+  }, []);
+
+  const chartData = reports.map((report) => ({
+    email: report.email,
+    typeBug: report.typeBug,
+    description: report.description,
+    image: report.image,
+  }));
+
   const data = [
-    { name: "Jan", uv: 4000, pv: 2400, amt: 2400 },
-    { name: "Feb", uv: 3000, pv: 1398, amt: 2210 },
-    { name: "Mar", uv: 2000, pv: 9800, amt: 2290 },
-    { name: "Apr", uv: 2780, pv: 3908, amt: 2000 },
-    { name: "May", uv: 1890, pv: 4800, amt: 2181 },
-    { name: "Jun", uv: 2390, pv: 3800, amt: 2500 },
-    { name: "Jul", uv: 3490, pv: 4300, amt: 2100 },
+    {
+      type: "Janvier",
+      value: chartData.length,
+    },
+    { type: "Février", value: chartData.length },
+    { type: "Mars", value: chartData.length },
+    { type: "Avril", value: chartData.length },
+    { type: "Mai", value: chartData.length },
+    { type: "Juin", value: chartData.length },
+    { type: "Juillet", value: chartData.length },
+    { type: "Aout", value: chartData.length },
+    { type: "Septembre", value: chartData.length },
+    { type: "octobre", value: chartData.length },
+    { type: "Novembre", value: chartData.length },
+    { type: "Décembre", value: chartData.length },
   ];
 
-  return (
-    <div className="dashboard">
-      {/* <h1>Dashboard - Admin Panel</h1> */}
+  const config = {
+    appendPadding: 10,
+    data,
+    angleField: "value",
+    colorField: "type",
+    radius: 0.8,
+    label: {
+      type: "outer",
+    },
+    interactions: [
+      {
+        type: "element-active",
+      },
+    ],
+  };
 
-      {/* <SidebarAdmin /> */}
-      <div className="dashboard-container">
-        <Typography component="h1">Dashboard</Typography>
-
-        <div className="lineChart">
-          <LineChart width={300} height={100} data={data}>
-            <XAxis dataKey="name" />
-            <YAxis />
-            <CartesianGrid strokeDasharray="3 3" />
-            <Tooltip />
-            <Legend />
-            <Line dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-            <Line dataKey="uv" stroke="#82ca9d" />
-          </LineChart>{" "}
-        </div>
-
-        {/* <div className="doughnutChart">
-          <Doughnut data={doughnutState} />
-        </div> */}
-      </div>
-    </div>
-  );
+  return <Pie {...config} />;
 };
 
 export default Dashboard;

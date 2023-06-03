@@ -11,6 +11,9 @@ import {
   LOGIN_USER,
   LOGIN_USER_FAIL,
   LOGIN_USER_SUCCESS,
+  GET_CURRENT_USER_SUCCESS,
+  GET_CURRENT_USER_FAIL,
+  GET_CURRENT_USER,
 } from "../Constante/UserType";
 import axios from "axios";
 import { Dispatch } from "redux";
@@ -26,6 +29,9 @@ export interface user {}
 // Define TypeScript types for action objects
 interface GetUserAction {
   type: typeof GET_USER;
+}
+interface GetCurrentUserAction {
+  type: typeof GET_CURRENT_USER;
 }
 interface AddUserSuccessAction {
   type: typeof ADD_USER_SUCCESS;
@@ -63,6 +69,15 @@ interface GetUserFailAction {
   type: typeof GET_USER_FAIL;
   payload: any; // Update the type based on your error data type
 }
+interface GetCurrentUserSuccessAction {
+  type: typeof GET_CURRENT_USER_SUCCESS;
+  payload: UserData;
+}
+
+interface GetCurrentUserFailAction {
+  type: typeof GET_CURRENT_USER_FAIL;
+  payload: any; // Update the type based on your error data type
+}
 interface ADDUserAction {
   type: typeof ADD_USER;
   payload: any; // Update the type based on your error data type
@@ -80,6 +95,9 @@ type UserAction =
   | GetUserAction
   | GetUserSuccessAction
   | GetUserFailAction
+  | GetCurrentUserAction
+  | GetCurrentUserSuccessAction
+  | GetCurrentUserFailAction
   | ADDUserAction
   | AddUserSuccessAction
   | AddUserFailAction
@@ -92,7 +110,7 @@ type UserAction =
 
 export const getUser = () => async (dispatch: Dispatch<UserAction>) => {
   dispatch({ type: GET_USER });
-  // const accessToken = localStorage.getItem("token");
+  const accessToken = localStorage.getItem("token");
   try {
     let result = await axios.get("/user/users", {
       // headers: {
@@ -113,14 +131,35 @@ export const getUser = () => async (dispatch: Dispatch<UserAction>) => {
 export const loginUser =
   (user: user) => async (dispatch: Dispatch<UserAction>) => {
     // dispatch({ type: LOGIN_USER });
+    const accessToken = localStorage.getItem("token");
     try {
       let result = await axios.post("/user/login", user);
+      // headers: {
+      //   Authorization: accessToken ? `Bearer ${accessToken}` : "",
+      // },
       dispatch({ type: LOGIN_USER_SUCCESS, payload: result.data });
     } catch (error) {
       dispatch({ type: LOGIN_USER_FAIL, payload: error });
       console.log(error);
     }
   };
+export const getCurrentUser = () => async (dispatch: Dispatch<UserAction>) => {
+  try {
+    const response = await axios.get("/user/current");
+    // headers: {
+    //   Authorization: accessToken ? `Bearer ${accessToken}` : "",
+    // },
+    dispatch({
+      type: GET_CURRENT_USER_SUCCESS,
+      payload: response.data,
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_CURRENT_USER_FAIL,
+      payload: error,
+    });
+  }
+};
 export const addUser =
   (newUser: newUser) => async (dispatch: Dispatch<UserAction>) => {
     try {

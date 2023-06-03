@@ -3,15 +3,12 @@ import {
   GET_CONTACT_SUCCESS,
   GET_CONTACT_FAIL,
   ADD_CONTACT,
+  ADD_CONTACT_FAIL,
+  ADD_CONTACT_SUCCESS,
   DELETE_CONTACT,
   DELETE_CONTACT_SUCCESS,
   DELETE_CONTACT_FAIL,
 } from "../Constante/ContactType";
-import {
-  UPDATE_REPORT,
-  UPDATE_REPORT_FAIL,
-  UPDATE_REPORT_SUCCESS,
-} from "../Constante/ReportType";
 
 interface Contact {
   // Define the shape of the contact object
