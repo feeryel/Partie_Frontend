@@ -152,11 +152,11 @@ export const loginUser =
       // ...
 
       // Redirect based on user role
-      if (decoded.role === 'admin') {
-      window.location.href = '/admin/dashboard';
-    } else {
-      window.location.href = '/';
-    }
+      if (decoded.role === "admin") {
+        window.location.href = "/admin/dashboard";
+      } else {
+        window.location.href = "/profile";
+      }
     } catch (error) {
       dispatch({ type: LOGIN_USER_FAIL, payload: error });
       console.log(error);

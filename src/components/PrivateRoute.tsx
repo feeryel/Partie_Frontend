@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, Route, Navigate } from "react-router-dom";
+import { useNavigate, Route, Navigate, Outlet } from "react-router-dom";
 import { UserActionCreators } from "./Redux";
 import { bindActionCreators } from "redux";
 import { UserState } from "./Redux/reducers/UserReducer";
@@ -12,18 +12,7 @@ const PrivateRoute = () => {
   const { userCurrent } = bindActionCreators(UserActionCreators, dispatch);
   const isAuth = localStorage.getItem("token");
 
-  const currentUser = useSelector((state: UserState) => state.currentUser[0]);
-  console.log(currentUser.role);
-
-  useEffect(() => {
-    userCurrent();
-  }, [dispatch]);
-
-  return isAuth && currentUser.role === "admin" ? (
-    <Dashboard />
-  ) : (
-    <Navigate to="/" />
-  );
+  return isAuth ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default PrivateRoute;

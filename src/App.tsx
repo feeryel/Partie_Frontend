@@ -34,6 +34,7 @@ import ComingSoon from "./components/ComingSoon";
 import Reports from "./components/Admin/Reports";
 import ReportBug from "./components/ReportBug";
 import PrivateRoute from "./components/PrivateRoute";
+import ProfileUser from "./components/ProfileUser/ProfileUser";
 
 // export const DataContext = React.createContext<any>(null);
 
@@ -82,91 +83,34 @@ function App() {
 
   return (
     <div className="page-container">
-      {/* <div className="navbar-container ">
-        <Navbar />
-      </div> */}
-      {/* <Divider type="vertical" /> */}
-
       <BrowserRouter>
         <Routes>
-          {/* <DataContext.Provider value={data}> */}
-
-          <Route
-            path="/"
-            element={
-              <SharedLayout
-              // data={data}
-              // onLanguageChange={handleLanguageChange}
-              />
-            }
-          >
-            {/* <Route index element={<Section />} /> */}
-            {/* <Route path="/" element={<Section />} /> */}
+          <Route path="/" element={<SharedLayout />}>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/Signin" element={<SignIn />} />
             <Route path="/Createaccount" element={<CreateAccount />} />{" "}
             <Route path="/admin/dashboard" element={<Dashboard />} />
           </Route>
-          <Route element={<PrivateRoute />}>
-            <Route path="admin" element={<SharedLayoutDashboard />}>
-              <Route path="/admin/users" element={<Users />} />
-              <Route path="/admin/contacts" element={<Contacts />} />
-              <Route path="/admin/reports" element={<Reports />} />
-            </Route>
-            <Route path="/contactus" element={<ContactUs />} />
-            <Route path="/reportbug" element={<ReportBug />} />
 
-            <Route path="/comingsoon" element={<ComingSoon />} />
-            <Route path="/roadmap" element={<Roadmap />} />
-            <Route path="/magazine" element={<Magazine />} />
-            <Route path="/pricing" element={<Pricing />} />
-            <Route path="/reportbug" element={<ReportBug />} />
+          <Route></Route>
+
+          <Route path="admin" element={<SharedLayoutDashboard />}>
+            <Route path="/admin/users" element={<Users />} />
+            <Route path="/admin/contacts" element={<Contacts />} />
+            <Route path="/admin/reports" element={<Reports />} />
           </Route>
+          <Route path="/contactus" element={<ContactUs />} />
+          <Route path="/reportbug" element={<ReportBug />} />
 
-          {/* <Route path="/*" element={<Section />} /> */}
+          <Route path="/comingsoon" element={<ComingSoon />} />
+          <Route path="/roadmap" element={<Roadmap />} />
+          <Route path="/magazine" element={<Magazine />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="/reportbug" element={<ReportBug />} />
         </Routes>
-        {/* </DataContext.Provider> */}
       </BrowserRouter>
-
-      {/* <div className="test">
-        <Add />
-        {contacts ? (
-          contacts.map((el: any) => (
-            <div style={{ width: "100px", border: "1px solid black" }}>
-              <h1>{el?.Name}</h1>
-              <h1>{el?.email}</h1>
-              <h1>{el?.organisation}</h1>
-              <h1>{el?.subject}</h1>
-              <h1>{el?.message}</h1>
-              <button onClick={() => deleteContact(el?.id)}>DELETE</button>
-            </div>
-          ))
-        ) : (
-          <h3>loading ..</h3>
-        )}
-      </div> */}
-      {/* <Admin dataProvider={lb4Provider("http://localhost:5002")}>
-        <Resource name="contact/contacts" />
-        <Resource name="user/users" />
-      </Admin> */}
     </div>
   );
-
-  // <div className="container">
-  //   <BrowserRouter>
-  //     <Routes>
-  //       <Route path="/" element={<SharedLayout />}>
-  //         <Route index element={<Home />} />
-  //         <Route path="transfer" element={<Transfer />} />
-  //         <Route path="stepper" element={<Stepper value={setRate} />} />
-  //         <Route path="cascader" element={<Cascader />} />
-  //         <Route path="datepicker" element={<DatePicker />} />
-  //         <Route path="card" element={<FpCard />} />
-  //       </Route>
-  //     </Routes>
-
-  //   </BrowserRouter>
-  // </div>;
 }
 
 export default App;
