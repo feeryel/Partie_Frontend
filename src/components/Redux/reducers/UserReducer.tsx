@@ -12,46 +12,58 @@ import {
   LOGIN_USER_FAIL,
   LOGIN_USER_SUCCESS,
   LOGIN_USER,
-  GET_CURRENT_USER,
-  GET_CURRENT_USER_FAIL,
-  GET_CURRENT_USER_SUCCESS,
+  GET_CURRENTUSER_FAIL,
+  GET_CURRENTUSER_SUCCESS,
+  GET_CURRENTUSER,
 } from "../Constante/UserType";
 
 export interface User {
-  image: any;
-  typeBug: any;
-  description: any;
-  id: number;
+  id: string;
+  createdAt: string;
+  updatedAt: string;
   firstName: string;
   lastName: string;
   email: string;
+  password: string;
   birthday: string;
-  bannerimage: string;
-  profilimage: string;
-  biography: string;
+  profileimage: null;
+  bannerimage: null;
+  biography: null;
+  role: string;
 }
-
 export interface UserState {
   userListe: User[];
+  currentUser: User;
   errors: any | null;
   status: string;
   isAuthentificated: boolean;
-  currentUser: User | undefined;
 }
 
-export interface UserAction {
+interface UserAction {
   type: string;
   payload: any; // Update the type based on your payload data type
 }
 
 const initialState: UserState = {
   userListe: [],
+  currentUser: {
+    id: "",
+    createdAt: "",
+    updatedAt: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    birthday: "",
+    profileimage: null,
+    bannerimage: null,
+    biography: null,
+    role: "",
+  },
   errors: null,
   status: "",
   isAuthentificated: false,
-  currentUser: {} as User,
 };
-
 const UserReducer = (
   state: UserState = initialState,
   { type, payload }: UserAction
@@ -62,12 +74,6 @@ const UserReducer = (
     case GET_USER_SUCCESS:
       return { ...state, status: "Success", userListe: payload };
     case GET_USER_FAIL:
-      return { ...state, status: "Fail", errors: payload };
-    case GET_CURRENT_USER:
-      return { ...state, status: "request send" };
-    case GET_CURRENT_USER_SUCCESS:
-      return { ...state, status: "Success", currentUser: payload };
-    case GET_CURRENT_USER_FAIL:
       return { ...state, status: "Fail", errors: payload };
     case ADD_USER:
       return { ...state, status: payload };
@@ -84,15 +90,18 @@ const UserReducer = (
     case LOGIN_USER:
       return { ...state, status: payload };
     case LOGIN_USER_SUCCESS:
-      return {
-        ...state,
-        status: payload,
-        isAuthentificated: true,
-
-        currentUser: payload,
-      };
+      localStorage.setItem("token", payload.accessToken);
+      return { ...state, status: payload, isAuthentificated: true };
     case LOGIN_USER_FAIL:
       return { ...state, status: payload };
+    case GET_CURRENTUSER_FAIL:
+      return { ...state, status: "fail" };
+    case GET_CURRENTUSER_SUCCESS:
+      return { ...state, ...state, currentUser: payload };
+    case GET_CURRENTUSER:
+      return { ...state, status: "request send" };
+
+    case LOGIN_USER:
     default:
       return state;
   }
