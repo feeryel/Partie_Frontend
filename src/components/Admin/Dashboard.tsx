@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Pie } from "@ant-design/plots";
 
 import { getReport } from "../Redux/Actions/ReportAction";
-import { ReportActionCreators, State } from "../Redux";
+import { ReportActionCreators, State, UserActionCreators } from "../Redux";
 import { bindActionCreators } from "redux";
 
 const Dashboard = () => {

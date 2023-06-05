@@ -64,6 +64,7 @@ const initialState: UserState = {
   status: "",
   isAuthentificated: false,
 };
+
 const UserReducer = (
   state: UserState = initialState,
   { type, payload }: UserAction
@@ -97,11 +98,9 @@ const UserReducer = (
     case GET_CURRENTUSER_FAIL:
       return { ...state, status: "fail" };
     case GET_CURRENTUSER_SUCCESS:
-      return { ...state, ...state, currentUser: payload };
+      return { ...state, currentUser: payload, status: "success" }; // Update the currentUser state
     case GET_CURRENTUSER:
       return { ...state, status: "request send" };
-
-    case LOGIN_USER:
     default:
       return state;
   }

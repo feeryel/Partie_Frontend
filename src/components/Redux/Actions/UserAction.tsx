@@ -145,17 +145,16 @@ export const loginUser =
 
       // Decode the access token
       const decoded: { role: string } = jwt_decode(result.data.access_token);
-      console.log("decoded.role");
-      // Example: Extract the user role from the decoded token
+      console.log(decoded.role);
 
-      // Perform additional logic or dispatch actions based on the decoded token
-      // ...
-
-      // Redirect based on user role
+      // Check the user's role before redirecting
       if (decoded.role === "admin") {
         window.location.href = "/admin/dashboard";
-      } else {
+      } else if (decoded.role === "user") {
         window.location.href = "/profile";
+      } else {
+        // Handle other roles or redirect to a default page
+        window.location.href = "/";
       }
     } catch (error) {
       dispatch({ type: LOGIN_USER_FAIL, payload: error });

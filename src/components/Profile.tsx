@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import { State, UserActionCreators } from "./Redux";
 import { bindActionCreators } from "redux";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,10 +14,22 @@ const Profile = () => {
     (state: State) => state.UserReducer.currentUser
   );
   const [user, setUser] = useState(currentUser);
+  const [loggedOut, setLoggedOut] = useState(false); // New loggedOut state
+
+  const logOut = () => {
+    localStorage.removeItem("token");
+    setLoggedOut(true); // Update loggedOut state when logging out
+  };
 
   useEffect(() => {
     userCurrent();
   }, [user]);
+
+  // Redirect to "/signin" if logged out
+  if (loggedOut) {
+    return <Navigate to="/signin" />;
+  }
+
   return (
     <div>
       <div className="profile-div">
@@ -31,13 +44,9 @@ const Profile = () => {
             <label>Name:</label>
             <span>{currentUser?.firstName}</span>
           </div>
-          {/* Add other user information fields here */}
         </div>
-
-        {/* <div className="profile-divider">
-            <Divider type="horizontal" />
-          </div> */}
       </div>
+      <button onClick={logOut}>Log Out</button>
     </div>
   );
 };
