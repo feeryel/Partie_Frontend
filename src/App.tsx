@@ -34,6 +34,8 @@ import ComingSoon from "./components/ComingSoon";
 import Reports from "./components/Admin/Reports";
 import ReportBug from "./components/ReportBug";
 import Profile from "./components/Profile";
+import PrivateRoutes from "./components/PrivateRoutes";
+import AdminPrivateRoutes from "./AdminPrivateRoute";
 // export const DataContext = React.createContext<any>(null);
 
 function App() {
@@ -102,12 +104,15 @@ function App() {
             {/* <Route index element={<Section />} /> */}
             {/* <Route path="/" element={<Section />} /> */}
           </Route>
-          <Route path="admin" element={<SharedLayoutDashboard />}>
-            <Route path="/admin/Dashboard" element={<Dashboard />} />
-            <Route path="/admin/users" element={<Users />} />
-            <Route path="/admin/contacts" element={<Contacts />} />
-            <Route path="/admin/reports" element={<Reports />} />
+          <Route element={<AdminPrivateRoutes />}>
+            <Route path="admin" element={<SharedLayoutDashboard />}>
+              <Route path="/admin/Dashboard" element={<Dashboard />} />
+              <Route path="/admin/users" element={<Users />} />
+              <Route path="/admin/contacts" element={<Contacts />} />
+              <Route path="/admin/reports" element={<Reports />} />
+            </Route>
           </Route>
+
           <Route path="/contactus" element={<ContactUs />} />
           <Route path="/reportbug" element={<ReportBug />} />
           <Route path="/signup" element={<SignUp />} />
@@ -118,7 +123,10 @@ function App() {
           <Route path="/magazine" element={<Magazine />} />
           <Route path="/pricing" element={<Pricing />} />
           {/* <Route path="/reportbug" element={<ReportBug />} /> */}
-          <Route path="/profile" element={<Profile />} />
+
+          <Route element={<PrivateRoutes />}>
+            <Route path="/profile" element={<Profile />} />
+          </Route>
 
           {/* <Route path="/*" element={<Section />} /> */}
         </Routes>
