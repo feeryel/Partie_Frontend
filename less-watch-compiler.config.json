@@ -1,5 +1,5 @@
 {
-  "watchFolder": "src",
-  "outputFolder": "dist",
+  "watchFolder": "src/src",
+  "outputFolder": "src/_dist",
   "mainFile": "app.less"
 }
