@@ -91,7 +91,6 @@ const UserReducer = (
     case LOGIN_USER:
       return { ...state, status: payload };
     case LOGIN_USER_SUCCESS:
-      localStorage.setItem("token", payload.accessToken);
       return { ...state, status: payload, isAuthentificated: true };
     case LOGIN_USER_FAIL:
       return { ...state, status: payload };
