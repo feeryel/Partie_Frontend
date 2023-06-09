@@ -34,7 +34,7 @@ const ContactUs = () => {
     if (
       !NewContact.email ||
       !NewContact.Name ||
-      !NewContact.organisation ||
+      // !NewContact.organisation ||
       !NewContact.subject ||
       !NewContact.message
     ) {
@@ -81,7 +81,7 @@ const ContactUs = () => {
   const [NewContact, setNewContact] = useState({
     Name: "",
     email: "",
-    organisation: "",
+    // organisation: "",
     subject: "",
     message: "",
   });
@@ -147,7 +147,7 @@ const ContactUs = () => {
               <Divider type="horizontal" />
             </div>
 
-            <input
+            {/* <input
               type="text"
               placeholder={data?.contactusComponent.fiedl3}
               className="champs"
@@ -160,7 +160,7 @@ const ContactUs = () => {
             />
             <div className="contact">
               <Divider type="horizontal" />
-            </div>
+            </div> */}
 
             <input
               type="text"

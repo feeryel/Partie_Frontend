@@ -171,6 +171,8 @@ export const dataEN = {
     field4: "E-mail adress* ",
     field5: "Password* ",
     field6: "Confirm Password* ,",
+    field7: "Choose banner image",
+    field8: "Choose profile image",
     chekbox: "I am an independent and i have a registered Business.",
     button: "Create a KWK Private Account",
   },

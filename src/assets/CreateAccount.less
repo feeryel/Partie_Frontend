@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: center;
   padding-top: 35px;
+  overflow: hidden;
 }
 // .login-div .ant-modal-content {
 //   padding: 0px;
@@ -33,7 +34,7 @@
       text-align: center;
       display: flex;
       flex-direction: row;
-      width: 8vw;
+      // width: 8vw;
       border-radius: 7px;
       background-color: @dark-grey;
       padding: 7px 14px;
@@ -82,8 +83,8 @@
     width: 50%;
     display: flex;
     padding-top: 9vh;
-    padding-left: 9vh;
-    padding-bottom: 9vh;
+    // padding-left: 9vh;
+    padding-bottom: 15vh;
     flex-direction: column;
     align-items: center;
     .champ {
@@ -96,7 +97,7 @@
       letter-spacing: 0.17em;
       border: none;
 
-      padding-top: 21px;
+      // padding-top: 21px;
       // padding-left: 0px;
     }
     .champ::placeholder {
@@ -133,38 +134,53 @@
         border: none;
         color: @lm-green;
       }
-      .label-account {
+      //   .label-account {
+      //     align-items: center;
+      //     text-align: center;
+      //     width: 17vw;
+      //     border-radius: 7px;
+      //     background-color: @lm-bg-layer;
+      //     // padding: 7px 15px;
+      //     height: 5vh;
+      //     letter-spacing: 0.17em;
+      //     font-family: @poppins;
+      //     font-size: 17px;
+      //     font-weight: @fW300;
+      //     border: none;
+      //     color: @dark-grey;
+      //   }
+      // }
+      // .file-input-label {
+      //   display: inline-block;
+      //   background-color: #f5f5f5;
+      //   padding: 10px;
+      //   cursor: pointer;
+      //   margin-right: 15rem;
+      // }
+
+      // .file-input {
+      //   opacity: 0;
+      //   position: absolute;
+      //   width: 0;
+      //   height: 0;
+      // }
+
+      .account {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
         align-items: center;
-        text-align: center;
-        width: 17vw;
+        padding: 5px 5px;
+        border: 1px solid @dark-grey;
         border-radius: 7px;
         background-color: @lm-bg-layer;
-        // padding: 7px 15px;
-        height: 5vh;
-        letter-spacing: 0.17em;
+        box-shadow: 0px 5px 10px rgba(57, 71, 81, 0.1);
+        height: 7vh;
+        font-size: 13px;
         font-family: @poppins;
-        font-size: 17px;
-        font-weight: @fW300;
-        border: none;
-        color: @dark-grey;
+        font-weight: @fW500;
+        width: 13vw;
       }
-    }
-
-    .create {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      padding: 5px 5px;
-      border: 1px solid @dark-grey;
-      border-radius: 7px;
-      background-color: @lm-bg-layer;
-      box-shadow: 0px 5px 10px rgba(57, 71, 81, 0.1);
-      height: 7vh;
-      font-size: 13px;
-      font-family: @poppins;
-      font-weight: @fW500;
-      width: 13vw;
     }
   }
 }

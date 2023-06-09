@@ -1,16 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import "../../_dist/NavbarAdmin.css";
+import { Navigate } from "react-router-dom";
 const NavbarAdmin = () => {
+  const [loggedOut, setLoggedOut] = useState(false); // New loggedOut state
+
+  const logOut = () => {
+    localStorage.removeItem("token");
+    setLoggedOut(true); // Update loggedOut state when logging out
+  };
+  if (loggedOut) {
+    return <Navigate to="/signin" />;
+  }
+
   return (
     <div className="nav-admin">
       <div className="title">
-        <h1>Welcome to Admin Panel</h1>
+        <h1 className="admin-title">Welcome to Admin Panel</h1>
       </div>
-      <div className="search">
-        <BiSearch />
-        <input type="text" placeholder="Search" />
-      </div>
+      <button className="user_logout_btn" onClick={logOut}>
+        Log Out
+      </button>
     </div>
   );
 };

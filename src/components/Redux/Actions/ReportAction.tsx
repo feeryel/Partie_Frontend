@@ -131,9 +131,9 @@ export const deleteReport =
     }
   };
 export const updateReport =
-  (id: any) => async (dispatch: Dispatch<ReportAction>) => {
+  (id: any, status: any) => async (dispatch: Dispatch<ReportAction>) => {
     try {
-      let result = await axios.put(`/report/${id}/update`);
+      let result = await axios.post(`/report/${id}/update`, status);
       dispatch({ type: UPDATE_REPORT, payload: result.data });
     } catch (error) {
       dispatch({ type: UPDATE_REPORT_FAIL, payload: error });

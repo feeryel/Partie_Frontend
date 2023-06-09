@@ -171,7 +171,10 @@ export const dataFR = {
     field3: "Date de naissance* ",
     field4: "adresse mail* ",
     field5: "mot de passe* ",
+
     field6: "Confirmer le mot de passe* ",
+    field7: "Choisir une photo de couverture",
+    field8: "Choisir une photo de profil",
     chekbox: "Je suis un indépendant et j'ai une entreprise enregistrée.",
     button: "Créer compte privé KWK",
   },

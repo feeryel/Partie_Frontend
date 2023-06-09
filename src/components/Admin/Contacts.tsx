@@ -6,8 +6,13 @@ import { ContactActionCreators, State } from "../Redux";
 import { bindActionCreators } from "redux";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ExclamationCircleOutlined from "@ant-design/icons";
+import { Modal } from "antd";
+
 const Users = () => {
   const dispatch = useDispatch();
+  const { confirm } = Modal;
+
   const contacts = useSelector(
     (state: State) => state.ContactReducer.contactListe
   );
@@ -20,7 +25,17 @@ const Users = () => {
     getContact();
   }, []);
   const handleDelete = (userId: string) => {
-    deleteContact(userId);
+    confirm({
+      title: "Confirm Delete",
+      icon: <ExclamationCircleOutlined />,
+      content: "Are you sure you want to delete this contact?",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk() {
+        deleteContact(userId);
+      },
+    });
   };
   console.log(contacts);
 
@@ -29,10 +44,10 @@ const Users = () => {
       <table className="table table-bordered">
         <thead>
           <tr>
-            <th>ID</th>
+            {/* <th>ID</th> */}
             <th>Name</th>
             <th>Email</th>
-            <th>Organisation</th>
+            {/* <th>Organisation</th> */}
             <th>Subject</th>
             <th>message</th>
             <th>Actions</th>
@@ -41,10 +56,10 @@ const Users = () => {
         <tbody>
           {contacts.map((contact: any) => (
             <tr key={contact.id}>
-              <td>{contact.id}</td>
+              {/* <td>{contact.id}</td> */}
               <td>{contact.Name}</td>
               <td>{contact.email}</td>
-              <td>{contact.organisation}</td>
+              {/* <td>{contact.organisation}</td> */}
               <td>{contact.subject}</td>
               <td>{contact.message}</td>
               <td>

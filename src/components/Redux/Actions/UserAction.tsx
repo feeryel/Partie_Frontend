@@ -1,3 +1,5 @@
+import jwt_decode from "jwt-decode";
+
 import {
   GET_USER,
   GET_USER_SUCCESS,
@@ -11,12 +13,18 @@ import {
   LOGIN_USER,
   LOGIN_USER_FAIL,
   LOGIN_USER_SUCCESS,
-  GET_CURRENT_USER_SUCCESS,
-  GET_CURRENT_USER_FAIL,
-  GET_CURRENT_USER,
+  GET_CURRENTUSER,
+  GET_CURRENTUSER_FAIL,
+  GET_CURRENTUSER_SUCCESS,
+  UPDATE_USER,
+  UPDATE_USER_FAIL,
+  UPDATE_USER_SUCCESS,
+  GET_ONE_USER,
+  GET_ONE_USER_FAIL,
+  GET_ONE_USER_SUCCESS,
 } from "../Constante/UserType";
 import axios from "axios";
-import { Dispatch } from "redux";
+import { AnyAction, Dispatch } from "redux";
 
 // Define TypeScript types for response data
 interface UserData {
@@ -29,9 +37,6 @@ export interface user {}
 // Define TypeScript types for action objects
 interface GetUserAction {
   type: typeof GET_USER;
-}
-interface GetCurrentUserAction {
-  type: typeof GET_CURRENT_USER;
 }
 interface AddUserSuccessAction {
   type: typeof ADD_USER_SUCCESS;
@@ -46,10 +51,21 @@ interface DeleteUserSuccessAction {
   type: typeof DELETE_USER_SUCCESS;
   payload: UserData;
 }
-
+interface UpdateUserSuccessAction {
+  type: typeof UPDATE_USER_SUCCESS;
+  payload: UserData;
+}
 interface DeleteUserFailAction {
   type: typeof DELETE_USER_FAIL;
   payload: any; // Update the type based on your error data type
+}
+interface UpdateUserFailAction {
+  type: typeof UPDATE_USER_FAIL;
+  payload: any; // Update the type based on your error data type
+}
+interface LoginUserAction {
+  type: typeof LOGIN_USER;
+  payload: UserData;
 }
 interface LoginUserSuccessAction {
   type: typeof LOGIN_USER_SUCCESS;
@@ -69,35 +85,50 @@ interface GetUserFailAction {
   type: typeof GET_USER_FAIL;
   payload: any; // Update the type based on your error data type
 }
-interface GetCurrentUserSuccessAction {
-  type: typeof GET_CURRENT_USER_SUCCESS;
-  payload: UserData;
-}
-
-interface GetCurrentUserFailAction {
-  type: typeof GET_CURRENT_USER_FAIL;
-  payload: any; // Update the type based on your error data type
-}
 interface ADDUserAction {
   type: typeof ADD_USER;
   payload: any; // Update the type based on your error data type
+}
+interface UPDATEUserAction {
+  type: typeof UPDATE_USER;
 }
 interface DELETEUserAction {
   type: typeof DELETE_USER;
   payload: any; // Update the type based on your error data type
 }
+interface GETOneUserAction {
+  type: typeof GET_ONE_USER;
+}
+interface GetOneUserFailAction {
+  type: typeof GET_ONE_USER_FAIL;
+  payload: any; // Update the type based on your error data type
+}
+interface GetOneUserSuccessAction {
+  type: typeof GET_ONE_USER_SUCCESS;
+  payload: any; // Update the type based on your error data type
+}
+
 interface LOGINUserAction {
   type: typeof LOGIN_USER;
   payload: any; // Update the type based on your error data type
 }
+interface GetCurrentUserAction {
+  type: typeof GET_CURRENTUSER;
+}
+interface GetCurrentUserActionFail {
+  type: typeof GET_CURRENTUSER_FAIL;
+  payload: any; // Update the type based on your error data type
+}
+interface GetCurrentUserActionSuccess {
+  type: typeof GET_CURRENTUSER_SUCCESS;
+  payload: any; // Update the type based on your error data type
+}
 // Define the combined type for all possible actions
 type UserAction =
+  | LoginUserAction
   | GetUserAction
   | GetUserSuccessAction
   | GetUserFailAction
-  | GetCurrentUserAction
-  | GetCurrentUserSuccessAction
-  | GetCurrentUserFailAction
   | ADDUserAction
   | AddUserSuccessAction
   | AddUserFailAction
@@ -106,11 +137,20 @@ type UserAction =
   | DELETEUserAction
   | LOGINUserAction
   | LoginUserFailAction
-  | LoginUserSuccessAction;
+  | LoginUserSuccessAction
+  | GetCurrentUserAction
+  | GetCurrentUserActionFail
+  | GetCurrentUserActionSuccess
+  | UPDATEUserAction
+  | UpdateUserSuccessAction
+  | UpdateUserFailAction
+  | GETOneUserAction
+  | GetOneUserFailAction
+  | GetOneUserSuccessAction;
 
 export const getUser = () => async (dispatch: Dispatch<UserAction>) => {
   dispatch({ type: GET_USER });
-  const accessToken = localStorage.getItem("token");
+  // const accessToken = localStorage.getItem("token");
   try {
     let result = await axios.get("/user/users", {
       // headers: {
@@ -129,37 +169,32 @@ export const getUser = () => async (dispatch: Dispatch<UserAction>) => {
   }
 };
 export const loginUser =
-  (user: user) => async (dispatch: Dispatch<UserAction>) => {
-    // dispatch({ type: LOGIN_USER });
-    const accessToken = localStorage.getItem("token");
+  (user: { email: string; password: string }) =>
+  async (dispatch: Dispatch<UserAction>) => {
+    dispatch({ type: LOGIN_USER, payload: "sent" });
     try {
       let result = await axios.post("/user/login", user);
-      // headers: {
-      //   Authorization: accessToken ? `Bearer ${accessToken}` : "",
-      // },
       dispatch({ type: LOGIN_USER_SUCCESS, payload: result.data });
+      localStorage.setItem("token", result.data.access_token);
+
+      // Decode the access token
+      const decoded: { role: string } = jwt_decode(result.data.access_token);
+      console.log(decoded.role);
+
+      // Check the user's role before redirecting
+      if (decoded.role === "admin") {
+        window.location.href = "/admin/dashboard";
+      } else if (decoded.role === "user") {
+        window.location.href = "/profile";
+      } else {
+        // Handle other roles or redirect to a default page
+        window.location.href = "/";
+      }
     } catch (error) {
       dispatch({ type: LOGIN_USER_FAIL, payload: error });
       console.log(error);
     }
   };
-export const getCurrentUser = () => async (dispatch: Dispatch<UserAction>) => {
-  try {
-    const response = await axios.get("/user/current");
-    // headers: {
-    //   Authorization: accessToken ? `Bearer ${accessToken}` : "",
-    // },
-    dispatch({
-      type: GET_CURRENT_USER_SUCCESS,
-      payload: response.data,
-    });
-  } catch (error) {
-    dispatch({
-      type: GET_CURRENT_USER_FAIL,
-      payload: error,
-    });
-  }
-};
 export const addUser =
   (newUser: newUser) => async (dispatch: Dispatch<UserAction>) => {
     try {
@@ -176,6 +211,47 @@ export const deleteUser =
       dispatch({ type: DELETE_USER, payload: result.data });
     } catch (error) {
       dispatch({ type: DELETE_USER_FAIL, payload: error });
+      console.log(error);
+    }
+  };
+
+export const userCurrent = () => async (dispatch: Dispatch<UserAction>) => {
+  dispatch({ type: GET_CURRENTUSER });
+  const accessToken = localStorage.getItem("token");
+  try {
+    let result = await axios.get("/user/current", {
+      headers: {
+        Authorization: accessToken ? `Bearer ${accessToken}` : "",
+      },
+    });
+    dispatch({ type: GET_CURRENTUSER_SUCCESS, payload: result.data });
+  } catch (error) {
+    dispatch({ type: GET_CURRENTUSER_FAIL, payload: error });
+  }
+};
+export const updateUsers =
+  (id: any, updatedUser: newUser) => async (dispatch: Dispatch<UserAction>) => {
+    try {
+      dispatch({ type: UPDATE_USER }); // Pass the updatedUser as the payload
+
+      let result = await axios.put(`/user/${id}/update`, updatedUser);
+      // Handle the result as needed
+      dispatch({ type: UPDATE_USER, payload: result.data });
+    } catch (error) {
+      dispatch({ type: UPDATE_USER_FAIL, payload: error });
+      console.log(error);
+    }
+  };
+export const getOneUser =
+  (id: any) => async (dispatch: Dispatch<AnyAction>) => {
+    try {
+      dispatch({ type: GET_ONE_USER }); // Pass the updatedUser as the payload
+
+      let result = await axios.get(`/user/${id}/user`);
+      // Handle the result as needed
+      dispatch({ type: GET_ONE_USER_SUCCESS, payload: result.data });
+    } catch (error) {
+      dispatch({ type: GET_ONE_USER_FAIL, payload: error });
       console.log(error);
     }
   };

@@ -1,5 +1,5 @@
 import { Checkbox, Divider, Modal, message } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { bindActionCreators } from "redux";
 import { UserActionCreators } from "./Redux";
 import { useDispatch } from "react-redux";
@@ -7,6 +7,7 @@ import "../_dist/CreateAccount.css";
 import { Link } from "react-router-dom";
 import { dataEN } from "./data/EnglishData";
 import { dataFR } from "./data/FrenchData";
+import axios from "axios";
 
 const CreateAccount = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,12 @@ const CreateAccount = () => {
     UserActionCreators,
     dispatch
   );
+
+  //dals4vqls
+  // https://api.cloudinary.com/v1_1/dals4vqls
+  // feryel
+  const [file, setFile] = useState<any | null>(null);
+  const [picture, setPicture] = useState<any | null>(null);
 
   const [Data, setData] = useState(localStorage.getItem("language") || "");
 
@@ -29,6 +36,55 @@ const CreateAccount = () => {
   };
 
   const data = data_switch(Data);
+
+  const uploadImage = async (file: any) => {
+    try {
+      const form = new FormData();
+      form.append("file", file);
+      form.append("upload_preset", "feryel");
+
+      const response = await axios
+        .post("https://api.cloudinary.com/v1_1/dals4vqls/upload", form)
+        .then((result) => {
+          setNewUser({ ...NewUser, bannerimage: result.data.secure_url });
+        });
+      return response;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      throw error;
+    }
+  };
+
+  const uploadProfile = async (picture: any) => {
+    try {
+      const form = new FormData();
+      form.append("file", picture);
+      form.append("upload_preset", "feryel");
+
+      const response = await axios
+        .post("https://api.cloudinary.com/v1_1/dals4vqls/upload", form)
+        .then((result) => {
+          setNewUser({ ...NewUser, profileimage: result.data.secure_url });
+        });
+      return response;
+    } catch (error) {
+      console.error("Error uploading profile image:", error);
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    if (file) {
+      uploadImage(file);
+    }
+  }, [file]);
+
+  useEffect(() => {
+    if (picture) {
+      uploadProfile(picture);
+    }
+  }, [picture]);
+
   const [NewUser, setNewUser] = useState({
     firstName: "",
     lastName: "",
@@ -37,7 +93,7 @@ const CreateAccount = () => {
     confirmPassword: "",
     birthday: "",
     bannerimage: "",
-    profilimage: "",
+    profileimage: "",
     biography: "",
   });
 
@@ -54,6 +110,7 @@ const CreateAccount = () => {
     }
 
     // Call the addUser action to register the new user
+    // uploadImage();
     addUser(NewUser);
   };
 
@@ -148,31 +205,29 @@ const CreateAccount = () => {
           <div className="contact1">
             <Divider type="horizontal" />
           </div>
+          <label htmlFor="file" className="file-input-label">
+            <span>{data?.createaccount.field7}</span>
+          </label>
           <input
+            className="file-input"
             type="file"
-            placeholder="banner image"
-            className="champ"
-            onChange={(e) =>
-              setNewUser({
-                ...NewUser,
-                bannerimage: e.target.value,
-              })
-            }
+            // value={file}
+            onChange={(e: any) => setFile(e.target.files[0])}
           />
+          {/* <img src={url} /> */}
           <div className="contact1">
             <Divider type="horizontal" />
           </div>
+          <label htmlFor="file" className="file-input-label">
+            <span>{data?.createaccount.field8}</span>
+          </label>
           <input
+            className="file-input"
             type="file"
-            placeholder="profile image"
-            className="champ"
-            onChange={(e) =>
-              setNewUser({
-                ...NewUser,
-                profilimage: e.target.value,
-              })
-            }
+            // value={file}
+            onChange={(e: any) => setPicture(e.target.files[0])}
           />
+
           <div className="contact1">
             <Divider type="horizontal" />
           </div>
@@ -203,7 +258,7 @@ const CreateAccount = () => {
             <Link to="/signin" className="link-login">
               {data?.signinComponent.button}
             </Link>
-            <button className="create" onClick={handleSignUp}>
+            <button className="account" onClick={handleSignUp}>
               {data?.createaccount.button}
             </button>
           </div>

@@ -7,33 +7,39 @@
   justify-content: center;
   height: 9vh;
   // margin-left: 35rem;
-  gap: 50%;
+  gap: 30%;
+  .admin-title {
+    font-family: @poppins;
+    font-weight: 400;
+    color: black;
+  }
 }
 // .navbar-admin {
 //   width: 15vw;
 // }
 .search {
-  background-color: #212121;
+  background-color: #d5dbdb;
   display: flex;
   align-items: center;
   gap: 1rem;
   padding: 1rem 8rem 1rem 1rem;
   border-radius: 1rem;
+  height: 2vh;
   svg {
-    color: #577698;
+    color: #040405;
   }
   input {
     background-color: transparent;
     border: none;
-    color: #577698;
+    color: #040405;
     font-family: "Permanent Marker", cursive;
     letter-spacing: 0.3rem;
     &:focus {
       outline: none;
     }
     &::placeholder {
-      color: #577698;
-      font-family: "Permanent Marker", cursive;
+      color: #040405;
+      font-family: @poppins;
     }
   }
 }

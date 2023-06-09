@@ -9,8 +9,11 @@ import { useSelector } from "react-redux";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import ExclamationCircleOutlined from "@ant-design/icons";
+import { Modal } from "antd";
 const Users = () => {
   const dispatch = useDispatch();
+  const { confirm } = Modal;
 
   const { getUser, deleteUser } = bindActionCreators(
     UserActionCreators,
@@ -22,7 +25,17 @@ const Users = () => {
   const users = useSelector((state: State) => state.UserReducer.userListe);
 
   const handleDelete = (userId: string) => {
-    deleteUser(userId);
+    confirm({
+      title: "Confirm Delete",
+      icon: <ExclamationCircleOutlined />,
+      content: "Are you sure you want to delete this user?",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk() {
+        deleteUser(userId);
+      },
+    });
   };
   console.log(users);
 
@@ -31,7 +44,7 @@ const Users = () => {
       <table className="table table-bordered">
         <thead>
           <tr>
-            <th>ID</th>
+            {/* <th>ID</th> */}
             <th>Firstname</th>
             <th>Lastname</th>
             <th>Email</th>
@@ -43,7 +56,7 @@ const Users = () => {
         <tbody>
           {users.map((user: any) => (
             <tr key={user.id}>
-              <td>{user.id}</td>
+              {/* <td>{user.id}</td> */}
               <td>{user.firstName}</td>
               <td>{user.lastName}</td>
               <td>{user.email}</td>
